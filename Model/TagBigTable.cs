@@ -1,6 +1,6 @@
 namespace historianbigtableservice.Model
 {
-    public class TagBigDate
+    public class TagBigTable
     {
         public int thingId{get;set;}
         public long date{get;set;}

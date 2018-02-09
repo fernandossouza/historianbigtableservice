@@ -27,22 +27,39 @@ namespace historianbigtableservice.Service
             SynchronizeColumn();
         }
 
-        public async Task<(bool,string)> addColumn(string columnName)
+        public List<string> GetColumn()
         {
-            if(!_structureDb.column.Contains(columnName))
+            return _structureDb.column;
+        }
+
+        public async Task<(bool,string)> AddColumn(string columnName)
+        {
+            try
             {
+                // Verifica se a coluna existe na structure memory
+                // caso não exista  sincroni
+                if(!_structureDb.column.Contains(columnName))
+                {                    
+                    SynchronizeColumn();
+                     if(!_structureDb.column.Contains(columnName))
+                    {            
+                    string commandSql = "ALTER TABLE \"Historian\" ADD COLUMN \""+ columnName+"\" character varying(50)";
+                    await ExecuteCommandInsertUpdate(commandSql);
+                    SynchronizeColumn();
+                    }
+                }
 
+                return(true,string.Empty);
             }
-
-            return(true,"");
+            catch (Exception ex)
+            {
+                return(false,ex.ToString());
+            }
         }
 
 
 
-        // private async Task<dynamic> GetHistorian(int thingId, long startDate, long endDate)
-        // {
-
-        // }
+        
 
         // private async Task<TagBigDate> UpdateHistorian(TagBigDate tagBigDate)
         // {
@@ -55,7 +72,7 @@ namespace historianbigtableservice.Service
 
             commandSql = "SELECT column_name FROM information_schema.columns WHERE table_name ='Historian'";
 
-            var result = ExecuteCommand(commandSql).Result;
+            var result = ExecuteCommandSelect(commandSql).Result;
 
             List<string> listString = new List<string>();
             foreach(var column in result)
@@ -68,7 +85,7 @@ namespace historianbigtableservice.Service
 
         }
 
-        private async Task<IEnumerable<dynamic>> ExecuteCommand(string commandSQL)
+        public async Task<IEnumerable<dynamic>> ExecuteCommandSelect(string commandSQL)
         {
           
             IEnumerable<dynamic> dbResult;
@@ -76,6 +93,21 @@ namespace historianbigtableservice.Service
             {
                 dbConnection.Open();
                 dbResult = await dbConnection.QueryAsync<dynamic>(commandSQL);
+            }
+
+            return dbResult;
+           
+            
+        }
+
+        public async Task<int> ExecuteCommandInsertUpdate(string commandSQL)
+        {
+          
+            int dbResult;
+            using(IDbConnection dbConnection = new NpgsqlConnection(_configuration["stringHistorianBigTable"]))
+            {
+                dbConnection.Open();
+                dbResult = await dbConnection.ExecuteAsync(commandSQL);
             }
 
             return dbResult;

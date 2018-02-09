@@ -1,6 +1,6 @@
 namespace historianbigtableservice.Model
 {
-    public class Tag
+    public class TagInput
     {
         public int thingId{get;set;}
         public string tag{get;set;}

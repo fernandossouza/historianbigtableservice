@@ -5,6 +5,7 @@ namespace historianbigtableservice.Service.Interface
 {
     public interface IHistorianService
     {
-         Task<(bool,string)> addHistorian(Tag tag);
+        Task<(ThingOutput,string)> GetHistorian(int thingId, long startDate, long endDate);
+        Task<(bool,string)> AddHistorian(TagInput tag);
     }
 }

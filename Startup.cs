@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using historianbigtableservice.Service;
 using historianbigtableservice.Service.Interface;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace historianbigtableservice
 {
@@ -40,6 +41,9 @@ namespace historianbigtableservice
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseCors("CorsPolicy");
+            app.UseForwardedHeaders (new ForwardedHeadersOptions {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             if (env.IsDevelopment())
             {
