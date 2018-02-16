@@ -4,6 +4,7 @@ using historianbigtableservice.Service;
 using historianbigtableservice.Service.Interface;
 using historianbigtableservice.Model;
 using System;
+using Microsoft.Extensions.Logging;
 
 namespace historianbigtableservice.Controllers
 {
@@ -11,17 +12,18 @@ namespace historianbigtableservice.Controllers
     public class HistorianBigTableController : Controller
     {
         private readonly IHistorianService _historianService;
+        private readonly ILogger _logger;
 
-        public HistorianBigTableController(IHistorianService historianService)
+        public HistorianBigTableController(IHistorianService historianService, ILogger<HistorianBigTableController> logger)
         {
             _historianService = historianService;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery]int thingId, [FromQuery]long startDate, [FromQuery]long endDate)
         {
             try{
-
                  var (a,b) = await _historianService.GetHistorian(thingId,startDate,endDate);
 
             if(a!=null)
@@ -40,6 +42,7 @@ namespace historianbigtableservice.Controllers
             }
             catch(Exception ex)
             {
+                _logger.LogError(ex.ToString());
                 return StatusCode(500, ex.Message);
 
             }
