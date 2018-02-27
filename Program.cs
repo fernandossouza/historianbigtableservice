@@ -22,7 +22,7 @@ namespace historianbigtableservice
             WebHost.CreateDefaultBuilder(args)
 
             
-            .UseUrls ("http://*:5011")
+            //.UseUrls ("http://*:5011")
                 .UseStartup<Startup>()
                 .Build();
     }

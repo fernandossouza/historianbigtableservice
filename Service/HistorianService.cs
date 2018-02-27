@@ -130,6 +130,7 @@ namespace historianbigtableservice.Service
         {
             string commandSql = "SELECT * FROM public.\"Historian\" where \"thingId\" = "+ thingId;
             commandSql = commandSql + " and \"date\" >=" + startDate +" and \"date\" <=" + endDate; 
+            commandSql = commandSql + " order by \"date\" asc"; 
 
             var result = await _structureDbService.ExecuteCommandSelect(commandSql);
 
