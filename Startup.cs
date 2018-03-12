@@ -36,7 +36,7 @@ namespace historianbigtableservice
 
             
             services.AddSingleton<IStructureBigTable, StructureBigTable>();
-            services.AddTransient<IHistorianService, HistorianService>();
+            services.AddSingleton<IHistorianService, HistorianService>();
             services.AddMvc();
         }
 
