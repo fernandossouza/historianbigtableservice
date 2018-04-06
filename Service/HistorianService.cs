@@ -117,7 +117,7 @@ namespace historianbigtableservice.Service
                             else if(tagOutput.name.ToLower().Contains("lie")
                             || tagOutput.name.ToLower().Contains("lse"))
                             {
-                                 tagOutput.color = "#1E90FF";
+                                 tagOutput.color = "#B22222";
                             }
                             else
                             {
