@@ -104,6 +104,36 @@ namespace historianbigtableservice.Service
                     TagOutput tagOutput = new TagOutput();
                     tagOutput.name = column.Split(".")[1];
                     tagOutput.group = column.Split(".")[0];
+                    
+                    if(tagOutput.name.ToLower().Contains("medição"))
+                    {
+                        tagOutput.color = "#1E90FF";
+                    }
+                    else if (tagOutput.name.ToLower().Contains("lic")
+                            || tagOutput.name.ToLower().Contains("lsc"))
+                            {
+                                tagOutput.color = "#FFFF00";
+                            }
+                            else if(tagOutput.name.ToLower().Contains("lie")
+                            || tagOutput.name.ToLower().Contains("lse"))
+                            {
+                                 tagOutput.color = "#1E90FF";
+                            }
+                            else
+                            {
+                                 tagOutput.color = "#2E8B57";
+                            }
+
+                    switch(tagOutput.name.ToLower())
+                    {
+                        case  ("medição"):
+                            tagOutput.color = "#1E90FF";
+                        break;
+
+                        case "medição":
+                            tagOutput.color = "#1E90FF";
+                        break;
+                    }
 
                     tagOutput.timestamp = listdate;
                     tagOutput.value = listValue;
