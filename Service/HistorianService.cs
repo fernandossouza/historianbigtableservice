@@ -124,16 +124,7 @@ namespace historianbigtableservice.Service
                                  tagOutput.color = "#2E8B57";
                             }
 
-                    switch(tagOutput.name.ToLower())
-                    {
-                        case  ("medição"):
-                            tagOutput.color = "#1E90FF";
-                        break;
-
-                        case "medição":
-                            tagOutput.color = "#1E90FF";
-                        break;
-                    }
+                   
 
                     tagOutput.timestamp = listdate;
                     tagOutput.value = listValue;
